@@ -20,12 +20,11 @@ export default function LogoutModal({ onClose }: LogoutModalProps) {
   const router = useRouter();
 
   const handleLogout = async () => {
-
-    destroyCookie(null, 'token');
+    destroyCookie(null, 'token', { path: '/' });
     await signOut({ redirect: false });
     setIsLogoutClicked(true);
     setOpen(false);
-    router.push('/');
+    router.replace('/');
     resetLogoutClicked();
   };
 
