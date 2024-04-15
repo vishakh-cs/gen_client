@@ -68,8 +68,6 @@ export default function Sidebar({ children, params }: SidebarProps) {
 
   const [isProfileChange, setIsProfileChange] = useState(false);
 
-  console.log("collabWorkspaces,collaboratorWorkspaceLogo", collabWorkspaces);
-
   const socket = io(`${baseUrl}`);
 
   const router = useRouter();
@@ -128,8 +126,10 @@ export default function Sidebar({ children, params }: SidebarProps) {
   }, [params.workspaceId, isPageRestored, isWorkspaceNameChanged, isProfileChange]);
 
   const userId = userData ? userData.id : null;
-  localStorage.setItem('userId', userId);
-
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('userId', userId);
+  }
+  
 
   const createWorkspace = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

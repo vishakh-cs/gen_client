@@ -48,13 +48,13 @@ export default function ProfileSlider({ avatarData, setIsProfileChange, isProfil
   const audioRef = useRef<HTMLAudioElement>(null);
   const { edgestore } = useEdgeStore();
 
-  useEffect(() => {
-    const savedDarkMode = localStorage.getItem('darkmode');
-    if (savedDarkMode) {
-      setDarkMode(JSON.parse(savedDarkMode));
-      setIsLoadingLocalStorage(false);
-    }
-  }, [setDarkMode]);
+  // useEffect(() => {
+  //   const savedDarkMode = localStorage.getItem('darkmode');
+  //   if (savedDarkMode) {
+  //     setDarkMode(JSON.parse(savedDarkMode));
+  //     setIsLoadingLocalStorage(false);
+  //   }
+  // }, [setDarkMode]);
 
   const toggleDarkMode = () => {
     const newDarkModeState = !darkMode;
@@ -327,17 +327,24 @@ export default function ProfileSlider({ avatarData, setIsProfileChange, isProfil
 
 
               <div className={twMerge('flex justify-between items-center mt-32')}>
-                <span className={twMerge('text-gray-500 dark:text-gray-400 mr-2')}>
-                  Dark Mode/Light Mode
+                <span className={twMerge('text-gray-500 dark:text-gray-400 font-bold')}>
+                 Theme
                 </span>
-                <RiSunLine
-                  size={20}
-                  className={twMerge('cursor-pointer text-yellow-500 hover:text-yellow-700')}
-
-                />
+                {darkMode ? (
+                  <RiMoonLine
+                    size={20}
+                    className={twMerge('cursor-pointer text-yellow-500 hover:text-yellow-700 ml-14')}
+                  />
+                ) : (
+                  <RiSunLine
+                    size={20}
+                    className={twMerge('cursor-pointer text-yellow-500 hover:text-yellow-700 ml-14')}
+                  />
+                )}
                 <Switch onClick={toggleDarkMode} checked={darkMode} />
-
               </div>
+
+
             </div>
           </div>
         </SheetHeader>

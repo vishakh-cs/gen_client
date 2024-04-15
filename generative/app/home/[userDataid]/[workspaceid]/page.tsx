@@ -28,8 +28,6 @@ const WorkspaceId: React.FC<WorkspaceIdProps> = ({ params }) => {
   const userEmail = localStorage.getItem('userEmail');
   const [loading, setLoading] = useState(true);
 
-  console.log("userEmailuserEmailuserEmail",userEmail);
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -52,8 +50,6 @@ const WorkspaceId: React.FC<WorkspaceIdProps> = ({ params }) => {
   
     fetchUserData();
   }, [params.workspaceid , userEmail, router,baseUrl]);
-
-  console.log('isLogoutClicked:', isLogoutClicked);
 
   if (loading) {
     return <Loaders />

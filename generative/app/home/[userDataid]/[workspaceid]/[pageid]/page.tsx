@@ -30,12 +30,15 @@ interface WorkspaceIdProps {
   const resetLogoutClicked = useStore((state) => state.resetLogoutClicked);
 
   const [userData, setUserData] = useState<string | null>(null);
-  const userEmail = localStorage.getItem('userEmail');
+  const userEmail = typeof localStorage !== 'undefined' ? localStorage.getItem('userEmail') : null;
   const [loading, setLoading] = useState(true);
   const userID = useStore(state => state.userID);
   const isPageClick = useStore(state=>state.isPageClick);
 
-  localStorage.setItem('USER_ID', params.userDataid);
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('USER_ID', params.userDataid);
+  }
+  
 
   console.log("isPageClick",isPageClick);
   console.log("userID12",userID);
@@ -81,8 +84,6 @@ interface WorkspaceIdProps {
       <PreviewSkelton />
       </div>
   }
-
-  console.log('isLogoutClicked:', isLogoutClicked);
 
   return (
     <ProtectedRoutes>
