@@ -1,0 +1,35 @@
+name: Deploy Next.js Application
+on:
+ push:
+    branches:
+      - main
+
+jobs: 
+ build:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout Source
+        uses: actions/checkout@v4
+      - name: Create .env
+        run: echo "NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}" >>.env && echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >>.env && echo "EDGE_STORE_ACCESS_KEY=${{ secrets.EDGE_STORE_ACCESS_KEY }}" >>.env && echo "EDGE_STORE_SECRET_KEY=${{ secrets.EDGE_STORE_SECRET_KEY }}" >>.env && echo "NEXT_PUBLIC_LIVEKIT_URL=${{ secrets.NEXT_PUBLIC_LIVEKIT_URL }}" >>.env && echo "LIVEKIT_API_KEY=${{ secrets.LIVEKIT_API_KEY }}" >>.env && echo "LIVEKIT_API_SECRET=${{ secrets.LIVEKIT_API_SECRET }}" >>.env 
+      - name: Login to Docker Hub
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      - name: Build Docker Image
+        run: docker build -t dreamographer/zensync-client  .  
+      - name: Publish Image to Docker Hub
+        run: docker push dreamographer/zensync-client:latest
+ deploy:
+    needs: build 
+    runs-on: self-hosted 
+    steps: 
+      - name: Delete old container
+        run: docker rm -f frontend-container  
+      - name: Delete Used Docker Objects
+        run: docker system prune  -f
+      - name: Remove all unused images (both dangling and unreferenced)
+        run: docker image prune -a -f
+      - name: Pull image from Docker Hub
+        run: docker pull dreamographer/zensync-client:latest
+      - name: Run Docker Container
+        run: |
+          docker run -d -p 3000:3000 --name frontend-container dreamographer/zensync-client

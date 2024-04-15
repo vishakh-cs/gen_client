@@ -1,0 +1,11 @@
+/* Sidebar/sidebar.css */
+.sidebar-content {
+    overflow-y: scroll; 
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+   }
+   
+   .sidebar-content::-webkit-scrollbar {
+    display: none;
+   }
+   

@@ -1,0 +1,26 @@
+/* Conversation.css */
+
+.chat-body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .message {
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 5px;
+    max-width: 70%;
+  }
+  
+  .own {
+    align-self: flex-end;
+    background-color: #2196F3; /* Blue */
+    color: white;
+  }
+  
+  .other {
+    align-self: flex-start;
+    background-color: #4CAF50; /* Green */
+    color: white;
+  }
+  
