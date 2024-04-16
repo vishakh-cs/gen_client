@@ -21,9 +21,9 @@ const Login: React.FC<LoginProps> = () => {
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const [WorkspaceId, setWorkspaceId] = useState<string | null>(null);
 	const [collabWorkspace, setCollabWorkspace] = useState<any>(null);
-	const [userId,setUserId]=useState<string | null>(null);
+	const [userId, setUserId] = useState<string | null>(null);
 	const setCollaboratorWorkspace = useStore((state) => state.setCollaboratorWorkspace);
-    const [loading,setLoading] = useState(false)
+	const [loading, setLoading] = useState(false)
 	const collaboratorWorkspace = useStore((state) => state.collaboratorWorkspace);
 
 	const setUserEmail = useStore((state) => state.setUserEmail);
@@ -107,7 +107,7 @@ const Login: React.FC<LoginProps> = () => {
 			if (response.data.success) {
 
 				const token = response.data.token;
-				localStorage.setItem('userEmail',response.data.user.email);
+				localStorage.setItem('userEmail', response.data.user.email);
 
 				document.cookie = `token=${token}; path=/;`;
 				console.log(token);
@@ -146,7 +146,12 @@ const Login: React.FC<LoginProps> = () => {
 		}
 	};
 
-	if (isLoggedIn ||status === "loading" ||loading) {
+
+	const handleForgotPassword = ()=>{
+		router.push('/forgotPassword')
+	}
+
+	if (isLoggedIn || status === "loading" || loading) {
 		return <Loaders />;
 	}
 
@@ -154,13 +159,13 @@ const Login: React.FC<LoginProps> = () => {
 
 		<section className="flex flex-col md:flex-row h-screen items-center">
 			<div className="bg-indigo-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
-			<Image
-                    src={`https://source.unsplash.com/random/?tech&q=100&t=${Date.now()}`}
-                    alt=""
-                    className="w-full h-full object-cover"
-                    width={500}
-                    height={500}
-                />
+				<Image
+					src={`https://source.unsplash.com/random/?tech&q=100&t=${Date.now()}`}
+					alt=""
+					className="w-full h-full object-cover"
+					width={500}
+					height={500}
+				/>
 			</div>
 
 			<div className="bg-white  dark:bg-gray-800 w-full md:max-w-md lg:max-w-full md:mx-auto md:mx-0 md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12 flex items-center justify-center">
@@ -200,12 +205,15 @@ const Login: React.FC<LoginProps> = () => {
 						</div>
 
 						<div className="text-right mt-2">
-							<a
-								href="#"
+							<button
+							onClick={handleForgotPassword}
+								type="submit"
+								title="Forgot Password?"
 								className="text-sm font-semibold dark:text-white text-gray-700 hover:text-blue-700 focus:text-blue-700"
 							>
 								Forgot Password?
-							</a>
+							</button>
+
 						</div>
 
 						<button

@@ -74,10 +74,25 @@ interface WorkspaceIdProps {
     fetchUserData();
   }, [params.workspaceid, userEmail, router, baseUrl ]);
 
+   useEffect(() => {
+    if (isPageClick) {
+      const timer = setTimeout(() => {
+        useStore.setState({ isPageClick: false });
+      }, 2000);
 
-  if(loading){
-    return <Spinner />
+      return () => clearTimeout(timer);
+    }
+  }, [isPageClick]);
+
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
   }
+  
 
   if(isPageClick){
     return <div className=' mt-5 py-3'>
