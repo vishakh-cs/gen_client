@@ -13,6 +13,7 @@ function ForgotPassword() {
 
   const router = useRouter()
 
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
   const [email, setEmail] = useState<string>('');
   const [otp, setOtp] = useState<string>('');
   const [message, setMessage] = useState<Message | null>(null); 
@@ -24,7 +25,7 @@ function ForgotPassword() {
   
     try {
       setLoading(true);
-      const response = await axios.post<{ success: boolean, message: string }>('http://localhost:8000/verifyforgototp', {
+      const response = await axios.post<{ success: boolean, message: string }>(`${baseUrl}/verifyforgototp`, {
         email,
         otp,
         verificationCode:verificationCode.toString(),
@@ -54,7 +55,7 @@ function ForgotPassword() {
     }
     try {
       setLoading(true);
-      const response = await axios.post('http://localhost:8000/forgotpassword', {
+      const response = await axios.post(`${baseUrl}/forgotpassword`, {
         email,
       });
       setMessage(response.data);

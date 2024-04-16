@@ -6,6 +6,7 @@ import  { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation'
 
 function ResetPassword() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -49,7 +50,7 @@ function ResetPassword() {
     }
 
     try {
-      const response = await axios.post('http://localhost:8000/forgotresetpassword', {
+      const response = await axios.post(`${baseUrl}/forgotresetpassword`, {
         newPassword, email:decodedEmail
       });
       if(response.data.success){
