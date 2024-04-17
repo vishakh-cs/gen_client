@@ -117,7 +117,7 @@ const TrashBar: React.FC<TrashBarProps> = ({ workspaceId }) => {
                     <span><CiTrash size={22} className='ml-4' /></span>
                 </button>
             </SheetTrigger>
-            <SheetContent className='bg-black/80' side={'left'}>
+            <SheetContent className='dark:bg-black/80 bg-white' side={'left'}>
                 <SheetHeader>
                     <SheetTitle className='flex justify-center'>Trash Management</SheetTitle>
                     <SheetDescription>

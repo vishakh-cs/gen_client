@@ -39,7 +39,7 @@ interface SidebarProps {
 interface Workspace {
   pageIds: any;
   id: string;
-  
+
 }
 
 const SidebarContext = createContext<SidebarContextProps | undefined>(undefined);
@@ -59,7 +59,7 @@ export default function Sidebar({ children, params }: SidebarProps) {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
   const [workspaceid, setWorkspaceId] = useState('');
   const [loading, setLoading] = useState(false);
-  const setIsPageClick = useStore((state)=>state.setIsPageClick);
+  const setIsPageClick = useStore((state) => state.setIsPageClick);
 
   const setIsLogoutClicked = useStore((state) => state.setLogoutClicked);
   const workspaceName = useStore((state) => state.workspaceName);
@@ -122,18 +122,18 @@ export default function Sidebar({ children, params }: SidebarProps) {
 
   useEffect(() => {
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.workspaceId, isPageRestored, isWorkspaceNameChanged, isProfileChange]);
 
   const userId = userData ? userData.id : null;
   if (typeof localStorage !== 'undefined') {
     localStorage.setItem('userId', userId);
   }
-  
+
 
   const createWorkspace = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-   
+
     try {
       router.push(`/home/CreateWorkspace?email=${userData.email}`);
     } catch (error: any) {
@@ -167,7 +167,7 @@ export default function Sidebar({ children, params }: SidebarProps) {
       console.error('Invalid workspace ID:', workspaceId);
       return;
     }
-  
+
     // Check if the clicked workspace ID exists in collabWorkspaces
     const collabWorkspace = collabWorkspaces;
     if (collabWorkspace && collabWorkspace.id === workspaceId) {
@@ -186,7 +186,7 @@ export default function Sidebar({ children, params }: SidebarProps) {
         console.error('Workspace not found:', workspaceId);
         return;
       }
-  
+
       if (workspace.pageIds.length > 0) {
         router.replace(`/home/${userData.id}/${workspaceId}/${workspace.pageIds[0]}`);
         setSelectedPage(workspace.pageIds[0]);
@@ -196,7 +196,7 @@ export default function Sidebar({ children, params }: SidebarProps) {
       }
     }
   };
-  
+
   // page click
   const handleCollabClick = (pageId: string) => {
     if (Page_id) {
@@ -243,7 +243,6 @@ export default function Sidebar({ children, params }: SidebarProps) {
 
       toast.success('Page moved to trash successfully.');
       fetchData();
-      
       if (pages && pages.length > 0) {
         // Remove the trashed page from the pages array
         setPages(prevPages => prevPages.filter(p => p !== pageName));
@@ -284,16 +283,16 @@ export default function Sidebar({ children, params }: SidebarProps) {
     socket.on('addpage', () => {
       fetchData();
     });
-  
+
     socket.on('disconnect', () => {
       console.log('Disconnected from the server');
     });
-  
+
     return () => {
       socket.off('addpage');
       socket.off('disconnect');
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
@@ -302,17 +301,17 @@ export default function Sidebar({ children, params }: SidebarProps) {
       fetchData();
       toast.success('You have been removed from the workspace.');
     });
-  
+
     socket.on('disconnect', () => {
       console.log('Disconnected from the server');
     });
-  
+
     return () => {
       socket.off('collabRemoved');
       socket.off('disconnect');
-    
+
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -320,19 +319,19 @@ export default function Sidebar({ children, params }: SidebarProps) {
       fetchData();
       toast.success('You have been Added to an Workspace.');
     });
-  
+
     socket.on('disconnect', () => {
       console.log('Disconnected from the server');
     });
-  
+
     return () => {
       socket.off('collabRemoved');
       socket.off('disconnect');
-    
+
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
 
   const expandedSidebarClass = 'w-32';
   const collapsedSidebarClass = 'w-0';
@@ -365,7 +364,7 @@ export default function Sidebar({ children, params }: SidebarProps) {
     }
   };
 
-  if(loading){
+  if (loading) {
     return <Spinner />
   }
 
@@ -483,60 +482,61 @@ export default function Sidebar({ children, params }: SidebarProps) {
                 </div>
               ) : (
                 <>
-                  {/* Render collaborative workspace if available */}
-                  {collabWorkspaces?.pages?.length > 0 && (
-                    <div className="collaborator-pages">
-                      {/* Collab workspace header */}
-                      <h3 className="flex justify-center text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text mt-4 ml-4">Collaborator Workspace</h3>
-                      {/* Collab workspace details */}
-                      <div className="ml-4 px-1 mb-2 flex items-center">
-                        {collabWorkspaces.collablogo && (
-                          <Image
-                            src={imgPaths[collabWorkspaces.collablogo]}
-                            alt="Collaborator Workspace Logo"
-                            width={20}
-                            height={20}
-                            className="mr-2"
-                          />
-                        )}
-                        <button
-                          className="font-sans"
+                  <div className="h-20 sticky inset-x-0 bottom-0 bg-gradient-to-t from-sidebar to-transparent overflow-y-auto">
+                    {/* Render collaborative workspace if available */}
+                    {collabWorkspaces?.pages?.length > 0 && (
+                      <div className="collaborator-pages">
+                        {/* Collab workspace header */}
+                        <h3 className="flex justify-center text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text mt-4 ml-4">Collaborator Workspace</h3>
+                        {/* Collab workspace details */}
+                        <div className="ml-4 px-1 mb-2 flex items-center">
+                          {collabWorkspaces.collablogo && (
+                            <Image
+                              src={imgPaths[collabWorkspaces.collablogo]}
+                              alt="Collaborator Workspace Logo"
+                              width={20}
+                              height={20}
+                              className="mr-2"
+                            />
+                          )}
+                          <button
+                            className="font-sans"
                           // onClick={() => handleWorkspaceClick(collabWorkspaces.id)}
-                        >
-                          {collabWorkspaces.name}
+                          >
+                            {collabWorkspaces.name}
+                          </button>
+                        </div>
+                        {/* Collab workspace pages */}
+                        {collabWorkspaces.pages.map((collabPage, index) => (
+                          <button
+                            key={collabPage._id}
+                            className={twMerge(`
+            ${buttonBaseClass}
+            ${transitionClass}
+            ${selectedPage === collabPage._id ? selectedPageClass : ''}
+          `)}
+                            onClick={() => handleCollabClick(collabPage._id)}
+                          >
+                            <CiFileOn size={20} className="ml-3" />
+                            <span className={twMerge('text-gray-600 dark:text-gray-300 ml-7')}>
+                              {collabPage.PageName}
+                            </span>
+                            {/* Include trash functionality for pages */}
+                            {/* <FaRegTrashAlt size={20} className="opacity-60 ml-auto" onClick={() => moveToTrash(collabPage.PageName)} /> */}
+                          </button>
+                        ))}
+
+                        {/* Leave collaboration button */}
+                        <button
+                          onClick={handleLeaveCollab}
+                          className="flex text-transparent  gap-3 text-center justify-center bg-clip-text bg-gradient-to-br from-blue-500 to-purple-500 font-semibold text-base mt-6 p-8 ml-6 border-none focus:outline-none">
+                          <span>Leave Collaboration</span>
+                          <FaArrowLeftLong className='mt-1 opacity-55' size={18} color='white' />
                         </button>
                       </div>
-                      {/* Collab workspace pages */}
-                      {collabWorkspaces.pages.map((collabPage, index) => (
-                        <button
-                          key={collabPage._id}
-                          className={twMerge(`
-                          ${buttonBaseClass}
-                          ${transitionClass}
-                          ${selectedPage === collabPage._id ? selectedPageClass : ''}
-                        `)}
-                          onClick={() => handleCollabClick(collabPage._id)}
-                        >
-                          <CiFileOn size={20} className="ml-3" />
-                          <span className={twMerge('text-gray-600 dark:text-gray-300 ml-7')}>
-                            {collabPage.PageName}
-                          </span>
-                          {/* Include trash functionality for pages */}
-                          {/* <FaRegTrashAlt size={20} className="opacity-60 ml-auto" onClick={() => moveToTrash(collabPage.PageName)} /> */}
-                        </button>
-                      ))}
+                    )}
+                  </div>
 
-                      {/* Leave collaboration button */}
-                      <button
-                        onClick={handleLeaveCollab}
-                        className="flex text-transparent  gap-3 text-center justify-center bg-clip-text bg-gradient-to-br from-blue-500 to-purple-500 font-semibold text-base mt-6 p-8 ml-6 border-none focus:outline-none">
-                        <span>Leave Collaboration</span>
-                        <FaArrowLeftLong className='mt-1 opacity-55' size={18} color='white' />
-                      </button>
-                    </div>
-                  )}
-
-                  <div className="h-20 sticky inset-x-0 bottom-0  bg-gradient-to-t from-sidebar to-transparent"></div>
                 </>
               )}
             </div>

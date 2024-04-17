@@ -82,10 +82,6 @@ const ProfileIconDropDown: React.FC<{ workspaceId: string; pageId: string; user_
     }
   };
 
-
-
-  console.log("collaboratingUsers123", collaboratingUsers);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -193,6 +189,8 @@ const ProfileIconDropDown: React.FC<{ workspaceId: string; pageId: string; user_
     
     setIsLogoutClicked(true);
     setOpen(false);
+    sessionStorage.removeItem('loginUserid');
+    sessionStorage.removeItem('loginWorkspaceId');
     router.replace('/');
     resetLogoutClicked();
   };

@@ -38,10 +38,6 @@ interface WorkspaceIdProps {
   if (typeof localStorage !== 'undefined') {
     localStorage.setItem('USER_ID', params.userDataid);
   }
-  
-
-  console.log("isPageClick",isPageClick);
-  console.log("userID12",userID);
 
   useEffect(()=>{
     if(params.userDataid !==userID){

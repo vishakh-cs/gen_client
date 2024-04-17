@@ -163,7 +163,7 @@ export default function Signup() {
                                         clip-rule="evenodd" />
                                 </svg>
                             </button>
-                            <a onClick={() => router.push('/login')} className='text-white mt-2 py-2 px-4 font-semibold cursor-pointer ml-2' >Login</a>
+                            <a onClick={() => router.push('/login')} className='dark:text-white text-black mt-2 py-2 px-4 font-semibold cursor-pointer ml-2' >Login</a>
                         </form>
                     </div>
                 </div>

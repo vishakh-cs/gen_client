@@ -24,6 +24,8 @@ export default function LogoutModal({ onClose }: LogoutModalProps) {
     await signOut({ redirect: false });
     setIsLogoutClicked(true);
     setOpen(false);
+    sessionStorage.removeItem('loginUserid');
+    sessionStorage.removeItem('loginWorkspaceId');
     router.replace('/');
     resetLogoutClicked();
   };

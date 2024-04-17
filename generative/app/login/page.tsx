@@ -22,6 +22,8 @@ const Login: React.FC<LoginProps> = () => {
 	const [WorkspaceId, setWorkspaceId] = useState<string | null>(null);
 	const [collabWorkspace, setCollabWorkspace] = useState<any>(null);
 	const [userId, setUserId] = useState<string | null>(null);
+	const [loginUserid, setloginUserid] = useState<string | null>(null);
+	const [loginWorkspaceId, setloginWorkspaceId] = useState<string | null>(null);
 	const setCollaboratorWorkspace = useStore((state) => state.setCollaboratorWorkspace);
 	const [loading, setLoading] = useState(false)
 	const collaboratorWorkspace = useStore((state) => state.collaboratorWorkspace);
@@ -33,13 +35,28 @@ const Login: React.FC<LoginProps> = () => {
 
 	const { status, data: session } = useSession();
 
+	useEffect(() => {
+		setLoading(true);
+		if (isLoggedIn && !session?.user) {
+			const storedUserId = sessionStorage.getItem('loginUserid');
+			const storedWorkspaceId = sessionStorage.getItem('loginWorkspaceId');
+			if (storedUserId && storedWorkspaceId) {
+				router.replace(`/home/${storedUserId}/${storedWorkspaceId}`);
+			} else {
+				setLoading(false);
+			}
+		} else {
+			setLoading(false);
+		}
+	}, [isLoggedIn, router, session?.user]);
+	
 
 	useEffect(() => {
 		setLoading(true)
 		if (status === 'authenticated' && !WorkspaceId) {
 			router.push('/new_workspace');
 		} else if (status === 'authenticated' && WorkspaceId) {
-			router.push(`/home/${userId}/${WorkspaceId}`);
+			router.replace(`/home/${userId}/${WorkspaceId}`);
 		}
 		setLoading(false)
 	}, [status, WorkspaceId, router, userId]);
@@ -65,9 +82,9 @@ const Login: React.FC<LoginProps> = () => {
 						setCollaboratorWorkspace(userInfo.data.collaboratorWorkspace);
 						setUserId(userInfo.data.id);
 						localStorage.setItem('userEmail', userInfo.data.userEmail);
-						router.push(`/home/${userInfo.data.id}/${userInfo.data.workspaceId}`);
+						router.replace(`/home/${userInfo.data.id}/${userInfo.data.workspaceId}`);
 					} else {
-						router.push('/new_workspace');
+						router.replace('/new_workspace');
 					}
 				} catch (error: any) {
 					console.error('Error checking workspace:', error.message);
@@ -105,7 +122,8 @@ const Login: React.FC<LoginProps> = () => {
 			console.log("response from server", response.data);
 
 			if (response.data.success) {
-
+				sessionStorage.setItem('loginUserid', response.data.user.userid);
+				sessionStorage.setItem('loginWorkspaceId', response.data.user.workspaceId);
 				const token = response.data.token;
 				localStorage.setItem('userEmail', response.data.user.email);
 
@@ -113,9 +131,9 @@ const Login: React.FC<LoginProps> = () => {
 				console.log(token);
 
 				if (response.data.redirectUrl) {
-					router.push(response.data.redirectUrl);
+					router.replace(response.data.redirectUrl);
 				} else {
-					router.push('/new_workspace');
+					router.replace('/new_workspace');
 				}
 
 
