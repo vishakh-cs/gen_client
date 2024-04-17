@@ -10,7 +10,7 @@ interface PublishProps {
 }
 
 const Publish:React.FC<PublishProps>=({ workspaceid ,pageId}) =>{
-  const clientUrl = 'http://localhost:3000';
+  const clientUrl = 'https://generatives.live';
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
