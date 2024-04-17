@@ -197,8 +197,8 @@ const BannerImagePreview: React.FC<BannerImageProps> = ({ workspaceId, pageId })
   console.log('Rendering component');
 
   return (
-    <div className="bg-gray-100 font-sans h-72">
-      <div className="relative bg-cover bg-center h-72">{memoizedImage}</div>
+    <div className=" flex justify-center  font-sans h-72">
+      <div className="relative bg-cover bg-center h-72 w-[95%]">{memoizedImage}</div>
      
     </div>
   );

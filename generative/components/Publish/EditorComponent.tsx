@@ -24,10 +24,12 @@ import useStore from '@/Stores/store';
 interface EditorProps {
   // workspaceId: string;
   pageId: string;
+  darkMode: boolean;
 }
 
 export const EditorComponentPreview = ({
   pageId,
+  darkMode,
 }: EditorProps) => {
   
   const room = useRoom();
@@ -50,13 +52,13 @@ export const EditorComponentPreview = ({
 
   return (
     <>
-      <BlockNote doc={doc} provider={provider} pageId={pageId} />
+      <BlockNote doc={doc} provider={provider} pageId={pageId} darkMode={darkMode} />
     
     </>
   );
 }
 
-function BlockNote({ doc, provider, pageId }: { doc: Y.Doc, provider: any, pageId: string }) {
+function BlockNote({ doc, provider, pageId, darkMode }: { doc: Y.Doc, provider: any, pageId: string, darkMode: boolean }) {
   const currentUser = useSelf();
 
   const { complete } = useCompletion({
@@ -132,7 +134,7 @@ function BlockNote({ doc, provider, pageId }: { doc: Y.Doc, provider: any, pageI
   const userName = useStore(state => state.user_data.name); 
   const { theme, setTheme } = useTheme();
   let mode: "dark" | "light" = "dark";
-  if (theme === "light") {
+  if (!darkMode) {
     mode = "light";
   }
 
@@ -148,7 +150,7 @@ function BlockNote({ doc, provider, pageId }: { doc: Y.Doc, provider: any, pageI
   });
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full ml-5">
       <BlockNoteView editor={editor} editable={false} theme={mode} slashMenu={false}>
         <SuggestionMenuController
           triggerCharacter={"/"}

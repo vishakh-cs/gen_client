@@ -9,6 +9,7 @@ import { Spinner } from '@/components/Loaders/Spinner';
 import { RoomProvider } from '@/liveblocks.config';
 import { ClientSideSuspense } from '@liveblocks/react';
 import { io, Socket } from 'socket.io-client';
+import { FiSun, FiMoon } from 'react-icons/fi';
 
 // Define the shape of the workspace object
 interface Workspace {
@@ -41,6 +42,7 @@ const WorkspaceId: React.FC<WorkspaceIdProps> = ({ params }) => {
  const isLogoutClicked = useStore((state) => state.isLogoutClicked);
  const resetLogoutClicked = useStore((state) => state.resetLogoutClicked);
  const[trigger,setTrigger]=useState(false)
+ const [darkMode, setDarkMode] = useState(false);
 
 
  console.log("pages",pages);
@@ -150,49 +152,55 @@ const WorkspaceId: React.FC<WorkspaceIdProps> = ({ params }) => {
       </div>
     );
  }
+ const toggleDarkMode = () => {
+  setDarkMode(prevMode => !prevMode);
+};
 
  return (
-    <div className='bg-workspaceColor min-h-screen'>
-      {isLogoutClicked ? (
-        <LogoutModal onClose={() => resetLogoutClicked()} />
-      ) : (
-        <>
-          <div className='flex justify-between items-center py-2 px-4 sticky top-0 z-10'>
-            <div>
-              <span className='flex items-center text-lg font-semibold text-slate-400'>
-                Workspace: <span className="text-white">{workspace.name}</span>
-              </span>
-            </div>
-            <div className='flex items-center gap-4 mr-4'>
-              <span className='text-lg font-semibold text-slate-400'>
-                {workspace.pageCount}
-              </span>
-            </div>
-          </div>
-
-          <BannerImagePreview workspaceId={params.workspaceid} pageId={currentpageId} />
-
-          {currentPage && (
-            <div className="ml-6 text-lg font-semibold text-gray-800 dark:text-slate-100 ">
-              {currentPage.PageName}
-            </div>
-          )}
-            <RoomProvider id="my-room" initialPresence={{}}>
-              <ClientSideSuspense fallback="Loading…">
-                {() => <EditorComponentPreview  pageId={currentpageId} />}
-              </ClientSideSuspense>
-            </RoomProvider>
-          <div className="flex justify-center mt-4 px-4">
-            <button className="bg-transparent hover:bg-transparent text-white font-semibold py-2 px-4 rounded " onClick={prevPage}>Previous Page</button>
-            <span className='text-lg font-semibold text-gray-100 dark:text-slate-400 mt-1'>
-              {currentPageIndex + 1} | {pages.length}
+  <div className={`min-h-screen ${darkMode ? 'bg-workspaceColor' : 'bg-white'}`}>
+    {isLogoutClicked ? (
+      <LogoutModal onClose={() => resetLogoutClicked()} />
+    ) : (
+      <>
+        <div className='flex justify-between items-center py-2 px-4 sticky top-0 z-10'>
+          <div>
+            <span className={`flex items-center ml-5 text-lg font-semibold ${darkMode ? 'text-white' : 'text-black/50'}`}>
+              Workspace: <span className={`${darkMode ? 'text-white' : 'text-black'}`}>{workspace.name}</span>
             </span>
-            <button className="bg-transparent hover:bg-transparent text-white font-semibold py-2 px-4 rounded" onClick={nextPage}>Next Page</button>
           </div>
-        </>
-      )}
-    </div>
- );
+          <div className={`flex items-center gap-4 mr-4 ${darkMode ? 'text-slate-400' : 'text-black'}`}>
+            <span className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-black'}`}>
+              {workspace.pageCount}
+            </span>
+          </div>
+          <button className="text-xl" onClick={toggleDarkMode}>
+            {darkMode ? <FiSun  /> : <FiMoon color='black' />}
+          </button>
+        </div>
+
+        <BannerImagePreview workspaceId={params.workspaceid} pageId={currentpageId} />
+
+        {currentPage && (
+          <div className={`ml-10 mt-2 text-lg font-semibold ${darkMode ? 'text-gray-100' : 'text-black'}`}>
+            {currentPage.PageName}
+          </div>
+        )}
+          <RoomProvider id="my-room" initialPresence={{}}>
+            <ClientSideSuspense fallback="Loading…">
+              {() => <EditorComponentPreview darkMode={darkMode} pageId={currentpageId} />}
+            </ClientSideSuspense>
+          </RoomProvider>
+        <div className="flex justify-center mt-4 px-4">
+          <button className={`bg-transparent hover:bg-transparent font-semibold py-2 px-4 rounded ${darkMode ? 'text-white' : 'text-black'}`} onClick={prevPage}>Previous Page</button>
+          <span className={`text-lg font-semibold ${darkMode ? 'text-gray-100' : 'text-slate-400'} mt-1`}>
+            {currentPageIndex + 1} | {pages.length}
+          </span>
+          <button className={`bg-transparent hover:bg-transparent font-semibold py-2 px-4 rounded ${darkMode ? 'text-white' : 'text-black'}`} onClick={nextPage}>Next Page</button>
+        </div>
+      </>
+    )}
+  </div>
+);
 }
 
 export default WorkspaceId;
