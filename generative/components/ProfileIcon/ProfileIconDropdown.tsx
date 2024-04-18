@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import useStore from '@/Stores/store';
 import { signOut } from 'next-auth/react';
 import { destroyCookie } from 'nookies';
+import { CiCircleChevDown } from "react-icons/ci";
 
 interface User {
   _id: string;
@@ -208,12 +209,15 @@ const ProfileIconDropDown: React.FC<{ workspaceId: string; pageId: string; user_
   return (
     <>
       <motion.div animate={open ? "open" : "closed"} className="relative" ref={dropdownRef}>
-        <button onClick={() => setOpen((pv) => !pv)}>
+        <div className='flex justify-center items-center cursor-pointer' onClick={() => setOpen((pv) => !pv)}>
+        <button >
           {!user_data.profileImageUrl && user_data.email && (
             <div className='bg-green-600 w-7 h-7 mr-2 mt-2 rounded-full'>
             </div>
           )}
           {user_data.profileImageUrl && (
+            <>
+             <div className="relative inline-block">
             <Image
               src={user_data.profileImageUrl}
               alt="Profile"
@@ -222,8 +226,15 @@ const ProfileIconDropDown: React.FC<{ workspaceId: string; pageId: string; user_
               className="w-7 h-7 mr-2 rounded-full"
               title={user_data.email}
             />
+              {(collabrationWorkspace.length > 0 || otherWorkspaceIds.length > 0) && (
+               <div className="absolute bottom-0 right-1 w-2 h-2 bg-green-400 rounded-full"></div>
+                )}
+            </div>
+            </>
           )}
         </button>
+        <CiCircleChevDown size={21}/>
+        </div>
 
         <motion.ul
           initial={wrapperVariants.closed}

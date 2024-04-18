@@ -243,7 +243,7 @@ export default function ProfileSlider({ avatarData, setIsProfileChange, isProfil
                     ) : (
                       <span>{avatarData?.username?.slice(0, 2).toUpperCase()}</span>
                     )}
-                    {success && <RiCheckLine className="absolute bottom-0 right-0 text-green-500" />}
+                    {/* {success && <RiCheckLine className="absolute bottom-0 right-0 text-green-500" />} */}
                   </AvatarFallback>
                 </Avatar>
               </div>
@@ -313,37 +313,25 @@ export default function ProfileSlider({ avatarData, setIsProfileChange, isProfil
                 </span>
               </div>
 
-              {/* <div className={twMerge('flex justify-between items-center mt-4')}>
-                <span className={twMerge('font-sans text-gray-500 dark:text-gray-400 flex items-center cursor-pointer- mt-4 border-gray-50 rounded-lg h-9 w-full border px-4')}>
-                  Add another account <span className='flex ml-32'></span>
-                </span>
-              </div> */}
-
-              {/* <div className={twMerge('flex justify-between items-center mt-4')}>
-                <span className={twMerge('text-gray-500 dark:text-gray-400 flex items-center mt-4 border-green-400 rounded-lg h-20 w-full border px-4')}>
-                  <span className='mr-2'><RiBriefcaseFill /></span> My Workspaces <span className='flex ml-32'><IoIosArrowDropdown color='green' size={25} /></span>
-                </span>
-              </div> */}
-
-
               <div className={twMerge('flex justify-between items-center mt-32')}>
-                <span className={twMerge('text-gray-500 dark:text-gray-400 font-bold')}>
-                 Theme
-                </span>
-                {darkMode ? (
-                  <RiMoonLine
-                    size={20}
-                    className={twMerge('cursor-pointer text-yellow-500 hover:text-yellow-700 ml-14')}
-                  />
-                ) : (
-                  <RiSunLine
-                    size={20}
-                    className={twMerge('cursor-pointer text-yellow-500 hover:text-yellow-700 ml-14')}
-                  />
-                )}
+                <div className={twMerge('flex items-center')}>
+                  <span className={twMerge('text-gray-500 dark:text-gray-400 font-bold')}>
+                    Theme
+                  </span>
+                  {darkMode ? (
+                    <RiMoonLine
+                      size={20}
+                      className={twMerge('cursor-pointer text-yellow-500 hover:text-yellow-700 ml-4')}
+                    />
+                  ) : (
+                    <RiSunLine
+                      size={20}
+                      className={twMerge('cursor-pointer text-yellow-500 hover:text-yellow-700 ml-4')}
+                    />
+                  )}
+                </div>
                 <Switch onClick={toggleDarkMode} checked={darkMode} />
               </div>
-
 
             </div>
           </div>
