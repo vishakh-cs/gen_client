@@ -416,8 +416,8 @@ export default function Sidebar({ children, params }: SidebarProps) {
             </button>
 
             <DynamicTrashBar workspaceId={workspaceid} />
-
-
+            <div className="relative">
+            <div className="max-h-72 overflow-y-auto pb-6">
             {workspaces.map((workspace, index) => (
               <div key={workspace.id}>
                 {/* Render workspace button */}
@@ -474,6 +474,9 @@ export default function Sidebar({ children, params }: SidebarProps) {
                 ))}
               </div>
             ))}
+            </div>
+            <div className="absolute bottom-0 left-0 w-full h-14 bg-gradient-to-t from-gray-900 via-transparent to-transparent dark:bg-gradient-to-t dark:from-sidebar dark:via-transparent dark:to-transparent"></div>
+            </div>
 
             <div className="sidebar-content overflow-y-auto max-h-96">
               {loading ? (
@@ -482,7 +485,7 @@ export default function Sidebar({ children, params }: SidebarProps) {
                 </div>
               ) : (
                 <>
-                  <div className="h-20 sticky inset-x-0 bottom-0 bg-gradient-to-t from-sidebar to-transparent overflow-y-auto">
+                  <div className="dark:h-36 dark:sticky dark:inset-x-0 dark:bottom-0 dark:bg-gradient-to-t dark:from-sidebar dark:to-transparent dark:overflow-y-auto">
                     {/* Render collaborative workspace if available */}
                     {collabWorkspaces?.pages?.length > 0 && (
                       <div className="collaborator-pages">

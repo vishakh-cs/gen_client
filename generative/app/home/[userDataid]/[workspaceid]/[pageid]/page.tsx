@@ -40,7 +40,7 @@ interface WorkspaceIdProps {
   }
 
   useEffect(()=>{
-    if(params.userDataid !==userID){
+    if (params.userDataid && userID && params.userDataid !== userID) {
       return  router.push('/404')
     }
     setLoading(false)
@@ -48,6 +48,7 @@ interface WorkspaceIdProps {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      setLoading(true);
       try {
         const response = await fetch(`${baseUrl}/protected_workspace/${params.workspaceid}`);
         if (response.ok) {
