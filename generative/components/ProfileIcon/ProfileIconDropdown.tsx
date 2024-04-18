@@ -18,6 +18,8 @@ import useStore from '@/Stores/store';
 import { signOut } from 'next-auth/react';
 import { destroyCookie } from 'nookies';
 import { CiCircleChevDown } from "react-icons/ci";
+import { io, Socket } from 'socket.io-client';
+import toast from 'react-hot-toast';
 
 interface User {
   _id: string;
@@ -46,7 +48,7 @@ const ProfileIconDropDown: React.FC<{ workspaceId: string; pageId: string; user_
   const [owner, setOwner] = useState<User | null>(null);
   const [collabrationWorkspace, setCollabrationWorkspace] = useState<string[]>([]);
   const [otherWorkspaceIds, setOtherWorkspaceIds] = useState<string[]>([]);
-
+  const socket = io(`${baseUrl}`);
 
   const [messages, setMessages] = useState<Message[]>([]);
 
@@ -150,8 +152,21 @@ const ProfileIconDropDown: React.FC<{ workspaceId: string; pageId: string; user_
     };
 
     fetchCollaboratingUsers();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [workspaceId]);
+
+    socket.on('collabLeaved', () => {
+      fetchCollaboratingUsers(); 
+    });
+  
+    socket.on('disconnect', () => {
+      console.log('Disconnected from the server');
+    });
+  
+    return () => {
+      socket.off('collabLeaved');
+      socket.off('disconnect');
+    };
+  
+  }, [baseUrl, setOtherWorkspaceId, socket, workspaceId]);
 
 
   useEffect(() => {
