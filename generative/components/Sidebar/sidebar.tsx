@@ -417,7 +417,7 @@ export default function Sidebar({ children, params }: SidebarProps) {
 
             <DynamicTrashBar workspaceId={workspaceid} />
             <div className="relative">
-            <div className="max-h-72 overflow-y-auto pb-6">
+            <div className="max-h-72 overflow-y-auto pb-10">
             {workspaces.map((workspace, index) => (
               <div key={workspace.id}>
                 {/* Render workspace button */}
