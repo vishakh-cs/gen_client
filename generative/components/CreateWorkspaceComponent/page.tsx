@@ -55,7 +55,7 @@ function CreateWorkspaceComponent() {
                 setLoading(true);
                 setErrorMessage(null);
     
-                const response = await axios.post('http://localhost:8000/new-workspace', {
+                const response = await axios.post(`${baseUrl}/new-workspace`, {
                     imageIndex: selectedImageIndex,
                     workspaceName: workspaceName,
                     user: { email: email }
