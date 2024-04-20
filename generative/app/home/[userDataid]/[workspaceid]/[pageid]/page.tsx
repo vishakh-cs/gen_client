@@ -21,7 +21,7 @@ interface WorkspaceIdProps {
      pageid: string;
   };
  }
- 
+
 
  const WorkspaceId: React.FC<WorkspaceIdProps> = ({ params }) => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
